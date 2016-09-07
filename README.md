@@ -199,14 +199,14 @@ MDEditDialog dialog6 = new MDEditDialog.Builder(MainActivity.this)
 <dependency>
  <groupId>com.lai.weavey</groupId>
  <artifactId>dialog</artifactId>
- <version>1.0</version>
+ <version>1.1</version>
  <type>pom</type>
 </dependency>
 ```
 - gradle引用
 ```
-compile 'com.lai.weavey:dialog:1.0'
+compile 'com.lai.weavey:dialog:1.1'
 ```
-注意：该库是在sdk版本为24环境下编译的，想直接引用的用户，需要把java jdk升到1.8，Android SdkVersion升到24。Android 7.0时代已经到来，想体验7.0新特性也得把jdk升到1.8，不如就借这次机会升级吧，迟早的事。
+
 
 
