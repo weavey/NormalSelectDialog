@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -239,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setRightButtonTextColor(R.color.colorPrimary)
                 .setRightButtonText("确定")
                 .setLineColor(R.color.colorPrimary)
+                 .setInputTpye(InputType.TYPE_CLASS_NUMBER)
                 .setOnclickListener(new MDEditDialog.OnClickEditDialogListener() {
                     @Override
                     public void clickLeftButton(View view, String text) {
