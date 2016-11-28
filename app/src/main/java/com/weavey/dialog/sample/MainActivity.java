@@ -1,9 +1,11 @@
 package com.weavey.dialog.sample;
 
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,10 +34,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MDAlertDialog dialog4;
     private MDSelectionDialog dialog5;
     private MDEditDialog dialog6;
+    private ArrayList<String> datas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         button1 = (Button) findViewById(R.id.button1);
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initBottomDialog() {
 
+
         final ArrayList<String> s = new ArrayList<>();
         s.add("Weavey0");
         s.add("Weavey1");
@@ -84,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          @Override
                          public void onItemClick(Button button, int position) {
 
-//                                dialog1.dismiss();
+                                dialog1.dismiss();
                                 Toast.makeText(MainActivity.this, s.get(position), Toast.LENGTH_SHORT).show();
                          }
                 })
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initNormalDialog(){
 
-        dialog2 = new NormalAlertDialog.Builder(MainActivity.this)
+      dialog2 = new NormalAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.23f)  //屏幕高度*0.23
                 .setWidth(0.65f)  //屏幕宽度*0.65
                 .setTitleVisible(true)
@@ -129,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initNormalDialog2(){
 
-        dialog3 = new NormalAlertDialog.Builder(MainActivity.this)
+         dialog3 = new NormalAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.23f)  //屏幕高度*0.23
                 .setWidth(0.65f)  //屏幕宽度*0.65
                 .setTitleVisible(true)
@@ -154,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initMDDialog() {
 
-        dialog4 = new MDAlertDialog.Builder(MainActivity.this)
+      dialog4 = new MDAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.21f)  //屏幕高度*0.21
                 .setWidth(0.7f)  //屏幕宽度*0.7
                 .setTitleVisible(true)
@@ -188,12 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initMDMidDialog(){
 
-
-        final ArrayList<String> s = new ArrayList<>();
-        s.add("标为未读");
-        s.add("置顶聊天");
-        s.add("删除该聊天");
-        dialog5 = new MDSelectionDialog.Builder(MainActivity.this)
+         dialog5 = new MDSelectionDialog.Builder(MainActivity.this)
                 .setCanceledOnTouchOutside(true)
                 .setItemTextColor(R.color.black_light)
                 .setItemHeight(50)
@@ -204,18 +204,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onItemClick(Button button, int position) {
 
-                        Toast.makeText(MainActivity.this, s.get(position), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, datas.get(position), Toast.LENGTH_SHORT).show();
                         dialog5.dismiss();
                     }
                 })
                 .build();
-        dialog5.setDataList(s);
 
+        datas = new ArrayList<>();
+        datas.add("标为未读");
+        datas.add("置顶聊天");
+        datas.add("删除该聊天");
+        datas.add("删除该聊天");
+        datas.add("删除该聊天");
+        datas.add("删除该聊天");
+        dialog5.setDataList(datas);
     }
 
     private void initMDEditDialog(){
 
-        dialog6 = new MDEditDialog.Builder(MainActivity.this)
+         dialog6 = new MDEditDialog.Builder(MainActivity.this)
                 .setTitleVisible(true)
                 .setTitleText("修改用户名")
                 .setTitleTextSize(20)
@@ -234,15 +241,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setLineColor(R.color.colorPrimary)
                 .setOnclickListener(new MDEditDialog.OnClickEditDialogListener() {
                     @Override
-                    public void clickLeftButton(View view, String editText) {
+                    public void clickLeftButton(View view, String text) {
+
+                        //text为编辑的内容
                         dialog6.dismiss();
-                        Toast.makeText(MainActivity.this, editText.trim(), Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    public void clickRightButton(View view, String editText) {
 
-                        Toast.makeText(MainActivity.this, editText.trim(), Toast.LENGTH_SHORT).show();
+
+                    @Override
+                    public void clickRightButton(View view, String text) {
+
+                        //text为编辑的内容
                         dialog6.dismiss();
                     }
                 })
