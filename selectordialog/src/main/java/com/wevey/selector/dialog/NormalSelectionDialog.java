@@ -23,8 +23,6 @@ import java.util.ArrayList;
  */
 public class NormalSelectionDialog {
 
-
-    private static Context mContext;
     private Dialog mDialog;
     private View dialogView;
     private TextView title;
@@ -38,15 +36,15 @@ public class NormalSelectionDialog {
     public NormalSelectionDialog(Builder builder) {
 
         this.mBuilder = builder;
-        mDialog = new Dialog(mContext, R.style.bottomDialogStyle);
-        dialogView = View.inflate(mContext, R.layout.widget_bottom_dialog, null);
+        mDialog = new Dialog(mBuilder.getContext(), R.style.bottomDialogStyle);
+        dialogView = View.inflate(mBuilder.getContext(), R.layout.widget_bottom_dialog, null);
         mDialog.setContentView(dialogView); // 一定要在setAttributes(lp)之前才有效
 
         //设置dialog的宽
         Window dialogWindow = mDialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(mContext).getScreenWidth() * builder
-                .getItemWidth());
+        lp.width = (int) (ScreenSizeUtils.getInstance(mBuilder.getContext()).getScreenWidth() *
+                builder.getItemWidth());
         lp.gravity = Gravity.BOTTOM;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialogWindow.setAttributes(lp);
@@ -78,7 +76,7 @@ public class NormalSelectionDialog {
             title.setTextColor(mBuilder.getTitleTextColor());
             title.setTextSize(mBuilder.getTitleTextSize());
             LinearLayout.LayoutParams l = (LinearLayout.LayoutParams) title.getLayoutParams();
-            l.height = UiUtils.dp2px(mContext, mBuilder.getTitleHeight());
+            l.height = UiUtils.dp2px(mBuilder.getContext(), mBuilder.getTitleHeight());
             title.setLayoutParams(l);
 
             if (datas.size() != 0) {
@@ -135,7 +133,7 @@ public class NormalSelectionDialog {
     private Button getButton(String text, int position) {
 
         // 动态生成选择按钮
-        final Button button = new Button(mContext);
+        final Button button = new Button(mBuilder.getContext());
         button.setText(text);
         button.setTag(position);
         button.setTextColor(mBuilder.getItemTextColor());
@@ -162,8 +160,8 @@ public class NormalSelectionDialog {
     public void setDataList(ArrayList<String> datas) {
 
         int count = linearLayout.getChildCount();
-        if(count>1){
-            linearLayout.removeViewsInLayout(1,count-1);
+        if (count > 1) {
+            linearLayout.removeViewsInLayout(1, count - 1);
         }
 //
         this.datas = (datas == null ? new ArrayList<String>() : datas);
@@ -204,6 +202,7 @@ public class NormalSelectionDialog {
         private String cancleButtonText;
 
         private boolean isTouchOutside;
+        private Context mContext;
 
         public Builder(Context context) {
 
@@ -223,6 +222,10 @@ public class NormalSelectionDialog {
 
             cancleButtonText = "取消";
             isTouchOutside = true;
+        }
+
+        public Context getContext() {
+            return mContext;
         }
 
         public boolean getTitleVisible() {

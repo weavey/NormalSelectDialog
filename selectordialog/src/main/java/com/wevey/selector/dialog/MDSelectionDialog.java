@@ -21,8 +21,6 @@ import java.util.ArrayList;
  */
 public class MDSelectionDialog {
 
-
-    private static Context mContext;
     private Dialog mDialog;
     private View dialogView;
     private LinearLayout linearLayout;
@@ -34,14 +32,15 @@ public class MDSelectionDialog {
     public MDSelectionDialog(Builder builder) {
 
         this.mBuilder = builder;
-        mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-        dialogView = View.inflate(mContext, R.layout.widget_md_mid_dialog, null);
+        mDialog = new Dialog(mBuilder.getContext(), R.style.MyDialogStyle);
+        dialogView = View.inflate(mBuilder.getContext(), R.layout.widget_md_mid_dialog, null);
         linearLayout = (LinearLayout) dialogView.findViewById(R.id.md_mid_dialog_linear);
         mDialog.setContentView(dialogView); // 一定要在setAttributes(lp)之前才有效
         //设置dialog的宽
         Window dialogWindow = mDialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(mContext).getScreenWidth() * builder.itemWidth);
+        lp.width = (int) (ScreenSizeUtils.getInstance(mBuilder.getContext()).getScreenWidth() *
+                builder.itemWidth);
         lp.gravity = Gravity.CENTER;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialogWindow.setAttributes(lp);
@@ -77,14 +76,12 @@ public class MDSelectionDialog {
                 linearLayout.addView(button);
             }
         }
-
-
     }
 
     private Button getButton(String text, int position) {
 
         // 动态生成选择按钮
-        final Button button = new Button(mContext);
+        final Button button = new Button(mBuilder.getContext());
         button.setText(text);
         button.setTag(position);
         button.setTextColor(mBuilder.getItemTextColor());
@@ -92,8 +89,9 @@ public class MDSelectionDialog {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams
                 .MATCH_PARENT, mBuilder.getItemHeight());
         button.setLayoutParams(lp);
-        button.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
-        button.setPadding(UiUtils.dp2px(mContext,10),0,UiUtils.dp2px(mContext,10),0);
+        button.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        button.setPadding(UiUtils.dp2px(mBuilder.getContext(), 10), 0, UiUtils.dp2px(mBuilder
+                .getContext(), 10), 0);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -138,6 +136,7 @@ public class MDSelectionDialog {
         private int itemTextColor;
         private float itemTextSize;
         private boolean isTouchOutside;
+        private Context mContext;
 
         public Builder(Context context) {
 
@@ -151,6 +150,10 @@ public class MDSelectionDialog {
             isTouchOutside = true;
         }
 
+        public Context getContext() {
+
+            return mContext;
+        }
 
         public DialogOnItemClickListener getOnItemListener() {
             return onItemListener;

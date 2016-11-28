@@ -3,9 +3,11 @@ package com.wevey.selector.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -27,27 +29,26 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
     private TextView mLeftBtn;
     private TextView mRightBtn;
     private View lineView;
-    private static Context mContext;
     private Builder mBuilder;
 
     public MDEditDialog(Builder builder) {
 
         mBuilder = builder;
-        mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-        mDialogView = View.inflate(mContext, R.layout.widget_edit_dialog, null);
+        mDialog = new Dialog(mBuilder.getContext(), R.style.MyDialogStyle);
+        mDialogView = View.inflate(mBuilder.getContext(), R.layout.widget_edit_dialog, null);
         mTitle = (TextView) mDialogView.findViewById(R.id.edit_dialog_title);
         mEdit = (EditText) mDialogView.findViewById(R.id.edit_dialog_exittext);
         mLeftBtn = (TextView) mDialogView.findViewById(R.id.edit_dialog_leftbtn);
         mRightBtn = (TextView) mDialogView.findViewById(R.id.edit_dialog_rightbtn);
         lineView = (View) mDialogView.findViewById(R.id.edit_dialog_line);
-        mDialogView.setMinimumHeight((int) (ScreenSizeUtils.getInstance(mContext).getScreenHeight
-                () * builder.getMinHeight()));
+        mDialogView.setMinimumHeight((int) (ScreenSizeUtils.getInstance(mBuilder.getContext())
+                .getScreenHeight() * builder.getMinHeight()));
         mDialog.setContentView(mDialogView);
 
         Window dialogWindow = mDialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(mContext).getScreenWidth() * builder
-                .getWidth());
+        lp.width = (int) (ScreenSizeUtils.getInstance(mBuilder.getContext()).getScreenWidth() *
+                builder.getWidth());
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(lp);
@@ -75,6 +76,7 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
         mEdit.setSelection(mBuilder.getContentText().length());
         mEdit.setTextColor(mBuilder.getContentTextColor());
         mEdit.setTextSize(mBuilder.getContentTextSize());
+        mEdit.setInputType(mBuilder.getInputTpye());
         mLeftBtn.setText(mBuilder.getLeftButtonText());
         mLeftBtn.setTextColor(mBuilder.getLeftButtonTextColor());
         mLeftBtn.setTextSize(mBuilder.getButtonTextSize());
@@ -161,6 +163,8 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
         private String hintText;
         private int hintTextColor;
         private OnClickEditDialogListener listener;
+        private int inputTpye;
+        private Context mContext;
 
         public Builder(Context context) {
 
@@ -187,6 +191,12 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
             titleTextSize = 20;
             contentTextSize = 18;
             buttonTextSize = 16;
+            inputTpye = InputType.TYPE_NULL;
+        }
+
+        public Context getContext() {
+
+            return mContext;
         }
 
         public String getTitleText() {
@@ -376,6 +386,15 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
 
         public Builder setHintTextColor(int hintTextColor) {
             this.hintTextColor = ContextCompat.getColor(mContext, hintTextColor);
+            return this;
+        }
+
+        public int getInputTpye() {
+            return inputTpye;
+        }
+
+        public Builder setInputTpye(int inputTpye) {
+            this.inputTpye = inputTpye;
             return this;
         }
 

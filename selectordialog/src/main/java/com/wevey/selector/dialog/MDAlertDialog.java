@@ -23,25 +23,25 @@ public class MDAlertDialog implements View.OnClickListener {
     private TextView mContent;
     private TextView mLeftBtn;
     private TextView mRightBtn;
-    private static Context mContext;
     private Builder mBuilder;
 
     public MDAlertDialog(Builder builder) {
 
         mBuilder = builder;
-        mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-        mDialogView = View.inflate(mContext, R.layout.widget_md_dialog, null);
+        mDialog = new Dialog(mBuilder.getContext(), R.style.MyDialogStyle);
+        mDialogView = View.inflate(mBuilder.getContext(), R.layout.widget_md_dialog, null);
         mTitle = (TextView) mDialogView.findViewById(R.id.md_dialog_title);
         mContent = (TextView) mDialogView.findViewById(R.id.md_dialog_content);
         mLeftBtn = (TextView) mDialogView.findViewById(R.id.md_dialog_leftbtn);
         mRightBtn = (TextView) mDialogView.findViewById(R.id.md_dialog_rightbtn);
-        mDialogView.setMinimumHeight((int) (ScreenSizeUtils.getInstance(mContext).getScreenHeight
-                () * builder.getHeight()));
+        mDialogView.setMinimumHeight((int) (ScreenSizeUtils.getInstance(mBuilder.getContext())
+                .getScreenHeight() * builder.getHeight()));
         mDialog.setContentView(mDialogView);
 
         Window dialogWindow = mDialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(mContext).getScreenWidth() * builder.getWidth());
+        lp.width = (int) (ScreenSizeUtils.getInstance(mBuilder.getContext()).getScreenWidth() *
+                builder.getWidth());
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(lp);
@@ -125,6 +125,7 @@ public class MDAlertDialog implements View.OnClickListener {
         private float height;
         private float width;
         private DialogOnClickListener listener;
+        private Context mContext;
 
         public Builder(Context context) {
 
@@ -145,6 +146,11 @@ public class MDAlertDialog implements View.OnClickListener {
             titleTextSize = 16;
             contentTextSize = 14;
             buttonTextSize = 14;
+        }
+
+        public Context getContext() {
+
+            return mContext;
         }
 
         public String getTitleText() {

@@ -13,12 +13,13 @@ import android.widget.TextView;
 
 import com.weavey.utils.ScreenSizeUtils;
 
+import java.sql.NClob;
+
 /**
  * Created by Weavey on 2016/9/3.
  */
 public class NormalAlertDialog implements View.OnClickListener {
 
-    private static Context mContext;
     private TextView mTitle;
     private TextView mContent;
     private Button mLeftBtn;
@@ -32,21 +33,22 @@ public class NormalAlertDialog implements View.OnClickListener {
     public NormalAlertDialog(Builder builder) {
 
         this.mBuilder = builder;
-        mDialog = new Dialog(mContext, R.style.NormalDialogStyle);
-        mDialogView = View.inflate(mContext, R.layout.widget_dialog_normal, null);
+        mDialog = new Dialog(mBuilder.getContext(), R.style.NormalDialogStyle);
+        mDialogView = View.inflate(mBuilder.getContext(), R.layout.widget_dialog_normal, null);
         mTitle = (TextView) mDialogView.findViewById(R.id.dialog_normal_title);
         mContent = (TextView) mDialogView.findViewById(R.id.dialog_normal_content);
         mLeftBtn = (Button) mDialogView.findViewById(R.id.dialog_normal_leftbtn);
         mRightBtn = (Button) mDialogView.findViewById(R.id.dialog_normal_rightbtn);
         mSingleBtn = (Button) mDialogView.findViewById(R.id.dialog_normal_midbtn);
         mLine = (TextView) mDialogView.findViewById(R.id.dialog_normal_line);
-        mDialogView.setMinimumHeight((int) (ScreenSizeUtils.getInstance(mContext).getScreenHeight
-                () * builder.getHeight()));
+        mDialogView.setMinimumHeight((int) (ScreenSizeUtils.getInstance(mBuilder.getContext())
+                .getScreenHeight() * builder.getHeight()));
         mDialog.setContentView(mDialogView);
 
         Window dialogWindow = mDialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(mContext).getScreenWidth() * builder.getWidth());
+        lp.width = (int) (ScreenSizeUtils.getInstance(mBuilder.getContext()).getScreenWidth() *
+                builder.getWidth());
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(lp);
@@ -152,6 +154,7 @@ public class NormalAlertDialog implements View.OnClickListener {
         private boolean isTouchOutside;
         private float height;
         private float width;
+        private Context mContext;
 
         public Builder(Context context) {
 
@@ -178,6 +181,11 @@ public class NormalAlertDialog implements View.OnClickListener {
             contentTextSize = 14;
             buttonTextSize = 14;
 
+        }
+
+        public Context getContext() {
+
+            return mContext;
         }
 
         public String getTitleText() {
