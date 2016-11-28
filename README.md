@@ -1,3 +1,17 @@
+#使用方式
+- Maven引用
+```
+<dependency>
+ <groupId>com.lai.weavey</groupId>
+ <artifactId>dialog</artifactId>
+ <version>1.3</version>
+ <type>pom</type>
+</dependency>
+```
+- gradle引用
+```
+compile 'com.lai.weavey:dialog:1.3'
+```
 #前言
 项目中经常使用到的几种Dialog，所以干脆封装起来了，方便以后使用，顺便分享给大家，话不多说，直接看效果。
 - 样式一
@@ -170,6 +184,7 @@ MDEditDialog dialog6 = new MDEditDialog.Builder(MainActivity.this)
         .setContentTextSize(18)
         .setMaxLength(7)
         .setHintText("7位字符")
+        .setInputTpye(InputType.TYPE_CLASS_NUMBER)
         .setMaxLines(1)
         .setContentTextColor(R.color.colorPrimary)
         .setButtonTextSize(14)
@@ -191,21 +206,6 @@ MDEditDialog dialog6 = new MDEditDialog.Builder(MainActivity.this)
         .setMinHeight(0.3f)
         .setWidth(0.8f)
         .build();
-```
-#引用方式
-
-- Maven配置
-```
-<dependency>
- <groupId>com.lai.weavey</groupId>
- <artifactId>dialog</artifactId>
- <version>1.1</version>
- <type>pom</type>
-</dependency>
-```
-- gradle引用
-```
-compile 'com.lai.weavey:dialog:1.3'
 ```
 
 
