@@ -205,7 +205,7 @@ MDEditDialog dialog6 = new MDEditDialog.Builder(MainActivity.this)
 ```
 - gradle引用
 ```
-compile 'com.lai.weavey:dialog:1.1'
+compile 'com.lai.weavey:dialog:1.3'
 ```
 
 
