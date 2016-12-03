@@ -15,7 +15,7 @@ import com.weavey.utils.ScreenSizeUtils;
 /**
  * Created by Weavey on 2016/9/4.
  */
-public class MDAlertDialog implements View.OnClickListener {
+public class MDAlertDialog  {
 
     private Dialog mDialog;
     private View mDialogView;
@@ -74,8 +74,27 @@ public class MDAlertDialog implements View.OnClickListener {
         mRightBtn.setTextColor(mBuilder.getRightButtonTextColor());
         mRightBtn.setTextSize(mBuilder.getButtonTextSize());
 
-        mLeftBtn.setOnClickListener(this);
-        mRightBtn.setOnClickListener(this);
+        mLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (mBuilder.getListener() != null) {
+
+                    mBuilder.getListener().clickLeftButton(MDAlertDialog.this,mLeftBtn);
+                }
+
+            }
+        });
+        mRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBuilder.getListener() != null) {
+
+                    mBuilder.getListener().clickRightButton(MDAlertDialog.this,mRightBtn);
+                }
+
+            }
+        });
 
     }
 
@@ -89,22 +108,9 @@ public class MDAlertDialog implements View.OnClickListener {
         mDialog.dismiss();
     }
 
-    @Override
-    public void onClick(View view) {
+    public Dialog getDialog(){
 
-        int i = view.getId();
-        if (i == R.id.md_dialog_leftbtn && mBuilder.getListener() != null) {
-
-            mBuilder.getListener().clickLeftButton(mLeftBtn);
-            return;
-        }
-
-        if (i == R.id.md_dialog_rightbtn && mBuilder.getListener() != null) {
-
-            mBuilder.getListener().clickRightButton(mRightBtn);
-            return;
-        }
-
+        return mDialog;
     }
 
     public static class Builder {
@@ -124,7 +130,7 @@ public class MDAlertDialog implements View.OnClickListener {
         private boolean isTouchOutside;
         private float height;
         private float width;
-        private DialogOnClickListener listener;
+        private DialogInterface.OnLeftAndRightClickListener listener;
         private Context mContext;
 
         public Builder(Context context) {
@@ -288,11 +294,11 @@ public class MDAlertDialog implements View.OnClickListener {
             return this;
         }
 
-        public DialogOnClickListener getListener() {
+        public DialogInterface.OnLeftAndRightClickListener getListener() {
             return listener;
         }
 
-        public Builder setOnclickListener(DialogOnClickListener listener) {
+        public Builder setOnclickListener(DialogInterface.OnLeftAndRightClickListener listener) {
             this.listener = listener;
             return this;
         }

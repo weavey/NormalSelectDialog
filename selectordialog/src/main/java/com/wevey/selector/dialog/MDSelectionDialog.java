@@ -100,7 +100,7 @@ public class MDSelectionDialog {
                 if (mBuilder.getOnItemListener() != null) {
 
                     selectPosition = Integer.parseInt(button.getTag().toString());
-                    mBuilder.getOnItemListener().onItemClick(button, selectPosition);
+                    mBuilder.getOnItemListener().onItemClick(MDSelectionDialog.this,button, selectPosition);
 
                 }
             }
@@ -127,10 +127,15 @@ public class MDSelectionDialog {
         mDialog.dismiss();
     }
 
+    public Dialog getDialog(){
+
+        return mDialog;
+    }
+
     public static class Builder {
 
         //item属性
-        private DialogOnItemClickListener onItemListener;
+        private DialogInterface.OnItemClickListener onItemListener;
         private int itemHeight;
         private float itemWidth;
         private int itemTextColor;
@@ -155,11 +160,11 @@ public class MDSelectionDialog {
             return mContext;
         }
 
-        public DialogOnItemClickListener getOnItemListener() {
+        public DialogInterface.OnItemClickListener getOnItemListener() {
             return onItemListener;
         }
 
-        public Builder setOnItemListener(DialogOnItemClickListener onItemListener) {
+        public Builder setOnItemListener(DialogInterface.OnItemClickListener onItemListener) {
             this.onItemListener = onItemListener;
             return this;
         }

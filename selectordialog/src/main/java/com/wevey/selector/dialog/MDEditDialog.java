@@ -2,7 +2,6 @@ package com.wevey.selector.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
@@ -20,7 +19,7 @@ import com.weavey.utils.ScreenSizeUtils;
 /**
  * Created by Weavey on 2016/9/4.
  */
-public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDismissListener {
+public class MDEditDialog {
 
     private Dialog mDialog;
     private View mDialogView;
@@ -58,8 +57,14 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
 
     private void initDialog() {
 
-        mDialog.setOnDismissListener(this);
         mDialog.setCanceledOnTouchOutside(mBuilder.isTouchOutside());
+        mDialog.setOnDismissListener(new android.content.DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(android.content.DialogInterface dialog) {
+
+                mEdit.setText("");
+            }
+        });
 
         if (mBuilder.getTitleVisible()) {
 
@@ -73,7 +78,6 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
         mTitle.setTextColor(mBuilder.getTitleTextColor());
         mTitle.setTextSize(mBuilder.getTitleTextSize());
         mEdit.setText(mBuilder.getContentText());
-        mEdit.setSelection(mBuilder.getContentText().length());
         mEdit.setTextColor(mBuilder.getContentTextColor());
         mEdit.setTextSize(mBuilder.getContentTextSize());
         mEdit.setInputType(mBuilder.getInputTpye());
@@ -84,8 +88,28 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
         mRightBtn.setTextColor(mBuilder.getRightButtonTextColor());
         mRightBtn.setTextSize(mBuilder.getButtonTextSize());
         lineView.setBackgroundColor(mBuilder.getLineColor());
-        mLeftBtn.setOnClickListener(this);
-        mRightBtn.setOnClickListener(this);
+        mLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBuilder.getListener() != null) {
+
+                    mBuilder.getListener().clickLeftButton(MDEditDialog.this, mLeftBtn, mEdit
+                            .getText().toString());
+                }
+
+                if (mBuilder.getListener() != null) {
+
+                    mBuilder.getListener().clickRightButton(MDEditDialog.this, mRightBtn, mEdit
+                            .getText().toString());
+                }
+            }
+        });
+        mRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         mEdit.setHint(mBuilder.getHintText());
         mEdit.setHintTextColor(mBuilder.getHintTextColor());
@@ -102,12 +126,12 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
             mEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mBuilder.getMaxLength
                     ())});
         }
-
     }
 
     public void show() {
 
         mDialog.show();
+        mEdit.setSelection(mEdit.getText().toString().length());
     }
 
     public void dismiss() {
@@ -115,28 +139,9 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
         mDialog.dismiss();
     }
 
-    @Override
-    public void onClick(View view) {
+    public Dialog getDialog() {
 
-        int i = view.getId();
-        if (i == R.id.edit_dialog_leftbtn && mBuilder.getListener() != null) {
-
-            mBuilder.getListener().clickLeftButton(mLeftBtn, mEdit.getText().toString());
-            return;
-        }
-
-        if (i == R.id.edit_dialog_rightbtn && mBuilder.getListener() != null) {
-
-            mBuilder.getListener().clickRightButton(mRightBtn, mEdit.getText().toString());
-            return;
-        }
-
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialogInterface) {
-
-        mEdit.setText("");
+        return mDialog;
     }
 
     public static class Builder {
@@ -162,7 +167,7 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
         private float width;
         private String hintText;
         private int hintTextColor;
-        private OnClickEditDialogListener listener;
+        private DialogInterface.OnClickEditDialogListener listener;
         private int inputTpye;
         private Context mContext;
 
@@ -398,11 +403,11 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
             return this;
         }
 
-        public OnClickEditDialogListener getListener() {
+        public DialogInterface.OnClickEditDialogListener getListener() {
             return listener;
         }
 
-        public Builder setOnclickListener(OnClickEditDialogListener listener) {
+        public Builder setOnclickListener(DialogInterface.OnClickEditDialogListener listener) {
             this.listener = listener;
             return this;
         }
@@ -412,14 +417,5 @@ public class MDEditDialog implements View.OnClickListener, DialogInterface.OnDis
             return new MDEditDialog(this);
         }
     }
-
-    public interface OnClickEditDialogListener {
-
-        void clickLeftButton(View view, String editText);
-
-        void clickRightButton(View view, String editText);
-
-    }
-
 
 }

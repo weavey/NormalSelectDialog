@@ -17,6 +17,7 @@ import com.weavey.utils.ScreenSizeUtils;
 import com.weavey.utils.UiUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Weavey on 2016/9/3.
@@ -30,7 +31,7 @@ public class NormalSelectionDialog {
     private LinearLayout linearLayout;
 
     private Builder mBuilder;
-    private ArrayList<String> datas;
+    private List<String> datas;
     private int selectPosition;//最后一次选择的位置
 
     public NormalSelectionDialog(Builder builder) {
@@ -148,7 +149,7 @@ public class NormalSelectionDialog {
                 if (mBuilder.getOnItemListener() != null) {
 
                     selectPosition = Integer.parseInt(button.getTag().toString());
-                    mBuilder.getOnItemListener().onItemClick(button, selectPosition);
+                    mBuilder.getOnItemListener().onItemClick(NormalSelectionDialog.this,button, selectPosition);
 
                 }
             }
@@ -157,7 +158,7 @@ public class NormalSelectionDialog {
         return button;
     }
 
-    public void setDataList(ArrayList<String> datas) {
+    public void setDataList(List<String> datas) {
 
         int count = linearLayout.getChildCount();
         if (count > 1) {
@@ -184,6 +185,11 @@ public class NormalSelectionDialog {
         mDialog.dismiss();
     }
 
+    public Dialog getDialog(){
+
+        return mDialog;
+    }
+
     public static class Builder {
 
         //标题属性
@@ -193,7 +199,7 @@ public class NormalSelectionDialog {
         private int titleTextColor;
         private float titleTextSize;
         //item属性
-        private DialogOnItemClickListener onItemListener;
+        private DialogInterface.OnItemClickListener onItemListener;
         private int itemHeight;
         private float itemWidth;
         private int itemTextColor;
@@ -274,11 +280,11 @@ public class NormalSelectionDialog {
             return this;
         }
 
-        public DialogOnItemClickListener getOnItemListener() {
+        public DialogInterface.OnItemClickListener getOnItemListener() {
             return onItemListener;
         }
 
-        public Builder setOnItemListener(DialogOnItemClickListener onItemListener) {
+        public Builder setOnItemListener(DialogInterface.OnItemClickListener onItemListener) {
             this.onItemListener = onItemListener;
             return this;
         }
@@ -291,7 +297,6 @@ public class NormalSelectionDialog {
             this.itemHeight = UiUtils.dp2px(mContext, dp);
             return this;
         }
-
 
         public float getItemWidth() {
             return itemWidth;

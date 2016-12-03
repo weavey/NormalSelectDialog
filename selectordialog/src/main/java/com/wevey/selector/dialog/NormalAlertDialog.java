@@ -18,7 +18,7 @@ import java.sql.NClob;
 /**
  * Created by Weavey on 2016/9/3.
  */
-public class NormalAlertDialog implements View.OnClickListener {
+public class NormalAlertDialog {
 
     private TextView mTitle;
     private TextView mContent;
@@ -92,33 +92,39 @@ public class NormalAlertDialog implements View.OnClickListener {
         mSingleBtn.setTextColor(builder.getSingleButtonTextColor());
         mSingleBtn.setTextSize(builder.getButtonTextSize());
 
-        mLeftBtn.setOnClickListener(this);
-        mRightBtn.setOnClickListener(this);
-        mSingleBtn.setOnClickListener(this);
+        mLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    }
+                if (mBuilder.getOnclickListener() != null) {
 
-    @Override
-    public void onClick(View view) {
+                    mBuilder.getOnclickListener().clickLeftButton(NormalAlertDialog.this, mLeftBtn);
+                }
+            }
+        });
+        mRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        int i = view.getId();
-        if (i == R.id.dialog_normal_leftbtn && mBuilder.getOnclickListener() != null) {
+                if (mBuilder.getOnclickListener() != null) {
 
-            mBuilder.getOnclickListener().clickLeftButton(mLeftBtn);
-            return;
-        }
+                    mBuilder.getOnclickListener().clickRightButton(NormalAlertDialog.this,
+                            mRightBtn);
+                }
 
-        if (i == R.id.dialog_normal_rightbtn && mBuilder.getOnclickListener() != null) {
+            }
+        });
+        mSingleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            mBuilder.getOnclickListener().clickRightButton(mRightBtn);
-            return;
-        }
+                if (mBuilder.getSingleListener() != null) {
 
-        if (i == R.id.dialog_normal_midbtn && mBuilder.getSingleListener() != null) {
-
-            mBuilder.getSingleListener().onClick(mSingleBtn);
-            return;
-        }
+                    mBuilder.getSingleListener().clickSingleButton(NormalAlertDialog.this,
+                            mSingleBtn);
+                }
+            }
+        });
 
     }
 
@@ -130,6 +136,11 @@ public class NormalAlertDialog implements View.OnClickListener {
     public void dismiss() {
 
         mDialog.dismiss();
+    }
+
+    public Dialog getDialog(){
+
+        return mDialog;
     }
 
     public static class Builder {
@@ -148,8 +159,8 @@ public class NormalAlertDialog implements View.OnClickListener {
         private String rightButtonText;
         private int rightButtonTextColor;
         private int buttonTextSize;
-        private DialogOnClickListener onclickListener;
-        private View.OnClickListener singleListener;
+        private DialogInterface.OnLeftAndRightClickListener onclickListener;
+        private DialogInterface.OnSingleClickListener singleListener;
         private boolean isTitleVisible;
         private boolean isTouchOutside;
         private float height;
@@ -287,20 +298,21 @@ public class NormalAlertDialog implements View.OnClickListener {
             return this;
         }
 
-        public DialogOnClickListener getOnclickListener() {
+        public DialogInterface.OnLeftAndRightClickListener getOnclickListener() {
             return onclickListener;
         }
 
-        public Builder setOnclickListener(DialogOnClickListener onclickListener) {
+        public Builder setOnclickListener(DialogInterface.OnLeftAndRightClickListener
+                                                  onclickListener) {
             this.onclickListener = onclickListener;
             return this;
         }
 
-        public View.OnClickListener getSingleListener() {
+        public DialogInterface.OnSingleClickListener getSingleListener() {
             return singleListener;
         }
 
-        public Builder setSingleListener(View.OnClickListener singleListener) {
+        public Builder setSingleListener(DialogInterface.OnSingleClickListener singleListener) {
             this.singleListener = singleListener;
             return this;
         }
