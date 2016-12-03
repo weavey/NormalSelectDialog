@@ -15,6 +15,7 @@ import com.weavey.utils.ScreenSizeUtils;
 import com.weavey.utils.UiUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Weavey on 2016/9/4.
@@ -26,7 +27,7 @@ public class MDSelectionDialog {
     private LinearLayout linearLayout;
 
     private Builder mBuilder;
-    private ArrayList<String> datas;
+    private List<String> datas;
     private int selectPosition;//最后一次选择的位置
 
     public MDSelectionDialog(Builder builder) {
@@ -109,7 +110,7 @@ public class MDSelectionDialog {
         return button;
     }
 
-    public void setDataList(ArrayList<String> datas) {
+    public void setDataList(List<String> datas) {
 
         linearLayout.removeAllViews();
         this.datas = (datas == null ? new ArrayList<String>() : datas);
