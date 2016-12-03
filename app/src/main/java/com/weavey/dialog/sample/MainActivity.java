@@ -1,17 +1,12 @@
 package com.weavey.dialog.sample;
 
-import android.os.Build;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.wevey.selector.dialog.DialogOnClickListener;
-import com.wevey.selector.dialog.DialogOnItemClickListener;
+import com.wevey.selector.dialog.DialogInterface;
 import com.wevey.selector.dialog.MDEditDialog;
 import com.wevey.selector.dialog.NormalSelectionDialog;
 import com.wevey.selector.dialog.MDSelectionDialog;
@@ -29,12 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button button4;
     private Button button5;
     private Button button6;
-    private NormalSelectionDialog dialog1;
-    private NormalAlertDialog dialog2;
-    private NormalAlertDialog dialog3;
-    private MDAlertDialog dialog4;
-    private MDSelectionDialog dialog5;
-    private MDEditDialog dialog6;
     private ArrayList<String> datas;
 
     @Override
@@ -56,14 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button4.setOnClickListener(this);
         button5.setOnClickListener(this);
         button6.setOnClickListener(this);
-
-        initBottomDialog();
-        initNormalDialog();
-        initNormalDialog2();
-        initMDDialog();
-        initMDMidDialog();
-        initMDEditDialog();
-
     }
 
     private void initBottomDialog() {
@@ -75,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         s.add("Weavey2");
         s.add("Weavey3");
 
-        dialog1 = new NormalSelectionDialog.Builder(this)
+        NormalSelectionDialog dialog  = new NormalSelectionDialog.Builder(this)
                 .setlTitleVisible(true)   //设置是否显示标题
                 .setTitleHeight(65)   //设置标题高度
                 .setTitleText("please select")  //设置标题提示文本
@@ -86,26 +67,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setItemTextColor(R.color.colorPrimaryDark)  //设置item字体颜色
                 .setItemTextSize(14)  //设置item字体大小
                 .setCancleButtonText("Cancle")  //设置最底部“取消”按钮文本
-                .setOnItemListener(new DialogOnItemClickListener() {  //监听item点击事件
-                         @Override
-                         public void onItemClick(Button button, int position) {
+                .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
 
-                                dialog1.dismiss();
-                                Toast.makeText(MainActivity.this, s.get(position), Toast.LENGTH_SHORT).show();
-                         }
-                })
-                .setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
+
+                    @Override
+                    public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
+
+                        dialog.dismiss();
+                    }
+                }).setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
                 .build();
 
-
-        dialog1.setDataList(s);
+        dialog.setDataList(s);
+        dialog.show();
 
 
     }
 
     private void initNormalDialog(){
 
-      dialog2 = new NormalAlertDialog.Builder(MainActivity.this)
+      new NormalAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.23f)  //屏幕高度*0.23
                 .setWidth(0.65f)  //屏幕宽度*0.65
                 .setTitleVisible(true)
@@ -117,25 +98,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setLeftButtonTextColor(R.color.gray)
                 .setRightButtonText("不关闭")
                 .setRightButtonTextColor(R.color.black_light)
-                .setOnclickListener(new DialogOnClickListener() {
+                .setOnclickListener(new DialogInterface.OnLeftAndRightClickListener<NormalAlertDialog>() {
                     @Override
-                    public void clickLeftButton(View view) {
-                        dialog2.dismiss();
+                    public void clickLeftButton(NormalAlertDialog dialog, View view) {
+
+                        dialog.dismiss();
                     }
 
                     @Override
-                    public void clickRightButton(View view) {
-
-                        dialog2.dismiss();
+                    public void clickRightButton(NormalAlertDialog dialog, View view) {
+                        dialog.dismiss();
                     }
                 })
-                .build();
+                .build().show();
 
     }
 
     private void initNormalDialog2(){
 
-         dialog3 = new NormalAlertDialog.Builder(MainActivity.this)
+        new NormalAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.23f)  //屏幕高度*0.23
                 .setWidth(0.65f)  //屏幕宽度*0.65
                 .setTitleVisible(true)
@@ -147,20 +128,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setSingleButtonText("关闭")
                 .setSingleButtonTextColor(R.color.colorAccent)
                 .setCanceledOnTouchOutside(true)
-                .setSingleListener(new View.OnClickListener() {
+                .setSingleListener(new DialogInterface.OnSingleClickListener<NormalAlertDialog>() {
                     @Override
-                    public void onClick(View view) {
+                    public void clickSingleButton(NormalAlertDialog dialog, View view) {
 
-                        dialog3.dismiss();
+                        dialog.dismiss();
                     }
                 })
-                .build();
+                .build().show();
 
     }
 
     private void initMDDialog() {
 
-      dialog4 = new MDAlertDialog.Builder(MainActivity.this)
+      new MDAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.21f)  //屏幕高度*0.21
                 .setWidth(0.7f)  //屏幕宽度*0.7
                 .setTitleVisible(true)
@@ -175,38 +156,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setTitleTextSize(16)
                 .setContentTextSize(14)
                 .setButtonTextSize(14)
-                .setOnclickListener(new DialogOnClickListener() {
-                    @Override
-                    public void clickLeftButton(View view) {
+                .setOnclickListener(new DialogInterface.OnLeftAndRightClickListener<MDAlertDialog>() {
 
-                        dialog4.dismiss();
+                    @Override
+                    public void clickLeftButton(MDAlertDialog dialog, View view) {
+                        dialog.dismiss();
                     }
 
                     @Override
-                    public void clickRightButton(View view) {
-
-                        dialog4.dismiss();
+                    public void clickRightButton(MDAlertDialog dialog, View view) {
+                        dialog.dismiss();
                     }
                 })
-                .build();
+                .build().show();
 
     }
 
     private void initMDMidDialog(){
 
-         dialog5 = new MDSelectionDialog.Builder(MainActivity.this)
+       MDSelectionDialog dialog = new MDSelectionDialog.Builder(MainActivity.this)
                 .setCanceledOnTouchOutside(true)
                 .setItemTextColor(R.color.black_light)
                 .setItemHeight(50)
                 .setItemWidth(0.8f)  //屏幕宽度*0.8
                 .setItemTextSize(15)
                 .setCanceledOnTouchOutside(true)
-                .setOnItemListener(new DialogOnItemClickListener() {
+                .setOnItemListener(new DialogInterface.OnItemClickListener<MDSelectionDialog>() {
                     @Override
-                    public void onItemClick(Button button, int position) {
+                    public void onItemClick(MDSelectionDialog dialog, View button, int position) {
 
-                        Toast.makeText(MainActivity.this, datas.get(position), Toast.LENGTH_SHORT).show();
-                        dialog5.dismiss();
+                        dialog.dismiss();
                     }
                 })
                 .build();
@@ -218,12 +197,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         datas.add("删除该聊天");
         datas.add("删除该聊天");
         datas.add("删除该聊天");
-        dialog5.setDataList(datas);
+        dialog.setDataList(datas);
+        dialog.show();
     }
 
     private void initMDEditDialog(){
 
-         dialog6 = new MDEditDialog.Builder(MainActivity.this)
+         new MDEditDialog.Builder(MainActivity.this)
                 .setTitleVisible(true)
                 .setTitleText("修改用户名")
                 .setTitleTextSize(20)
@@ -241,26 +221,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setRightButtonText("确定")
                 .setLineColor(R.color.colorPrimary)
                  .setInputTpye(InputType.TYPE_CLASS_NUMBER)
-                .setOnclickListener(new MDEditDialog.OnClickEditDialogListener() {
+                .setOnclickListener(new DialogInterface.OnClickEditDialogListener() {
                     @Override
-                    public void clickLeftButton(View view, String text) {
-
-                        //text为编辑的内容
-                        dialog6.dismiss();
+                    public void clickLeftButton(MDEditDialog dialog, View view, String editText) {
+                        dialog.dismiss();
                     }
 
-
-
                     @Override
-                    public void clickRightButton(View view, String text) {
+                    public void clickRightButton(MDEditDialog dialog, View view, String editText) {
 
-                        //text为编辑的内容
-                        dialog6.dismiss();
+                        dialog.dismiss();
                     }
                 })
                 .setMinHeight(0.3f)
                 .setWidth(0.8f)
-                .build();
+                .build().show();
     }
 
     @Override
@@ -270,32 +245,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.button1 :
 
-                dialog1.show();
+                initBottomDialog();
                 break;
 
             case R.id.button2 :
 
-                dialog2.show();
+                initNormalDialog();
                 break;
 
             case R.id.button3 :
 
-                dialog3.show();
+                initNormalDialog2();
                 break;
 
             case R.id.button4 :
 
-                dialog4.show();
+                initMDDialog();
                 break;
 
             case R.id.button5 :
 
-                dialog5.show();
+                initMDMidDialog();
                 break;
 
             case R.id.button6 :
 
-                dialog6.show();
+                initMDEditDialog();
                 break;
         }
 
