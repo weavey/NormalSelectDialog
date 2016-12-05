@@ -28,7 +28,7 @@ public class MDSelectionDialog {
 
     private Builder mBuilder;
     private List<String> datas;
-    private int selectPosition;//最后一次选择的位置
+    private int clickPosition;//最后一次点击的位置
 
     public MDSelectionDialog(Builder builder) {
 
@@ -100,8 +100,8 @@ public class MDSelectionDialog {
 
                 if (mBuilder.getOnItemListener() != null) {
 
-                    selectPosition = Integer.parseInt(button.getTag().toString());
-                    mBuilder.getOnItemListener().onItemClick(MDSelectionDialog.this,button, selectPosition);
+                    clickPosition = Integer.parseInt(button.getTag().toString());
+                    mBuilder.getOnItemListener().onItemClick(MDSelectionDialog.this,button, clickPosition);
 
                 }
             }
@@ -110,11 +110,21 @@ public class MDSelectionDialog {
         return button;
     }
 
-    public void setDataList(List<String> datas) {
+    public void setDatas(List<String> datas) {
 
         linearLayout.removeAllViews();
         this.datas = (datas == null ? new ArrayList<String>() : datas);
         loadItem();
+    }
+
+    public List<String> getDatas(){
+
+        return datas == null ? new ArrayList<String>() : datas;
+    }
+
+    public int getFinalClickPosition(){
+
+        return this.clickPosition;
     }
 
     public void show() {

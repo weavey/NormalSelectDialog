@@ -32,7 +32,7 @@ public class NormalSelectionDialog {
 
     private Builder mBuilder;
     private List<String> datas;
-    private int selectPosition;//最后一次选择的位置
+    private int clickPosition;//最后一次选择的位置
 
     public NormalSelectionDialog(Builder builder) {
 
@@ -148,8 +148,9 @@ public class NormalSelectionDialog {
 
                 if (mBuilder.getOnItemListener() != null) {
 
-                    selectPosition = Integer.parseInt(button.getTag().toString());
-                    mBuilder.getOnItemListener().onItemClick(NormalSelectionDialog.this,button, selectPosition);
+                    clickPosition = Integer.parseInt(button.getTag().toString());
+                    mBuilder.getOnItemListener().onItemClick(NormalSelectionDialog.this, button,
+                            clickPosition);
 
                 }
             }
@@ -158,7 +159,7 @@ public class NormalSelectionDialog {
         return button;
     }
 
-    public void setDataList(List<String> datas) {
+    public void setDatas(List<String> datas) {
 
         int count = linearLayout.getChildCount();
         if (count > 1) {
@@ -169,9 +170,14 @@ public class NormalSelectionDialog {
         loadItem();
     }
 
-    public boolean isShowing() {
+    public List<String> getDatas() {
 
-        return mDialog.isShowing();
+        return datas == null ? new ArrayList<String>() : datas;
+    }
+
+    public int getFinalClickPosition(){
+
+        return this.clickPosition;
     }
 
     public void show() {
@@ -185,7 +191,7 @@ public class NormalSelectionDialog {
         mDialog.dismiss();
     }
 
-    public Dialog getDialog(){
+    public Dialog getDialog() {
 
         return mDialog;
     }
