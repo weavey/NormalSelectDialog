@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }).setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
                 .build();
 
-        dialog.setDataList(s);
+        dialog.setDatas(s);
         dialog.show();
 
 
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         datas.add("删除该聊天");
         datas.add("删除该聊天");
         datas.add("删除该聊天");
-        dialog.setDataList(datas);
+        dialog.setDatas(datas);
         dialog.show();
     }
 
