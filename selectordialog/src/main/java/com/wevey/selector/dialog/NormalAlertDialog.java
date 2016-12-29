@@ -138,7 +138,7 @@ public class NormalAlertDialog {
         mDialog.dismiss();
     }
 
-    public Dialog getDialog(){
+    public Dialog getDialog() {
 
         return mDialog;
     }
@@ -159,8 +159,8 @@ public class NormalAlertDialog {
         private String rightButtonText;
         private int rightButtonTextColor;
         private int buttonTextSize;
-        private DialogInterface.OnLeftAndRightClickListener onclickListener;
-        private DialogInterface.OnSingleClickListener singleListener;
+        private DialogInterface.OnLeftAndRightClickListener<NormalAlertDialog> onclickListener;
+        private DialogInterface.OnSingleClickListener<NormalAlertDialog> singleListener;
         private boolean isTitleVisible;
         private boolean isTouchOutside;
         private float height;
@@ -298,21 +298,23 @@ public class NormalAlertDialog {
             return this;
         }
 
-        public DialogInterface.OnLeftAndRightClickListener getOnclickListener() {
+        public DialogInterface.OnLeftAndRightClickListener<NormalAlertDialog> getOnclickListener() {
             return onclickListener;
         }
 
-        public Builder setOnclickListener(DialogInterface.OnLeftAndRightClickListener
+        public Builder setOnclickListener(DialogInterface
+                                                  .OnLeftAndRightClickListener<NormalAlertDialog>
                                                   onclickListener) {
             this.onclickListener = onclickListener;
             return this;
         }
 
-        public DialogInterface.OnSingleClickListener getSingleListener() {
+        public DialogInterface.OnSingleClickListener<NormalAlertDialog> getSingleListener() {
             return singleListener;
         }
 
-        public Builder setSingleListener(DialogInterface.OnSingleClickListener singleListener) {
+        public Builder setSingleListener(DialogInterface.OnSingleClickListener<NormalAlertDialog>
+                                                 singleListener) {
             this.singleListener = singleListener;
             return this;
         }

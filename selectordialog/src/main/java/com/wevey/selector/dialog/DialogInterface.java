@@ -26,12 +26,4 @@ public interface DialogInterface {
 
         void onItemClick(T dialog, View button, int position);
     }
-
-    interface OnClickEditDialogListener {
-
-        void clickLeftButton(MDEditDialog dialog,View view, String editText);
-
-        void clickRightButton(MDEditDialog dialog,View view, String editText);
-
-    }
 }

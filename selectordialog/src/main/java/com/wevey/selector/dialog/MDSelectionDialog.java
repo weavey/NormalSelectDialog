@@ -110,11 +110,12 @@ public class MDSelectionDialog {
         return button;
     }
 
-    public void setDatas(List<String> datas) {
+    public MDSelectionDialog setDatas(List<String> datas) {
 
         linearLayout.removeAllViews();
         this.datas = (datas == null ? new ArrayList<String>() : datas);
         loadItem();
+        return this;
     }
 
     public List<String> getDatas(){
@@ -146,7 +147,7 @@ public class MDSelectionDialog {
     public static class Builder {
 
         //item属性
-        private DialogInterface.OnItemClickListener onItemListener;
+        private DialogInterface.OnItemClickListener<MDSelectionDialog> onItemListener;
         private int itemHeight;
         private float itemWidth;
         private int itemTextColor;
@@ -171,11 +172,11 @@ public class MDSelectionDialog {
             return mContext;
         }
 
-        public DialogInterface.OnItemClickListener getOnItemListener() {
+        public DialogInterface.OnItemClickListener<MDSelectionDialog> getOnItemListener() {
             return onItemListener;
         }
 
-        public Builder setOnItemListener(DialogInterface.OnItemClickListener onItemListener) {
+        public Builder setOnItemListener(DialogInterface.OnItemClickListener<MDSelectionDialog> onItemListener) {
             this.onItemListener = onItemListener;
             return this;
         }

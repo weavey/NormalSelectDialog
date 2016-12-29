@@ -130,7 +130,7 @@ public class MDAlertDialog  {
         private boolean isTouchOutside;
         private float height;
         private float width;
-        private DialogInterface.OnLeftAndRightClickListener listener;
+        private DialogInterface.OnLeftAndRightClickListener<MDAlertDialog> listener;
         private Context mContext;
 
         public Builder(Context context) {
@@ -294,11 +294,11 @@ public class MDAlertDialog  {
             return this;
         }
 
-        public DialogInterface.OnLeftAndRightClickListener getListener() {
+        public DialogInterface.OnLeftAndRightClickListener<MDAlertDialog> getListener() {
             return listener;
         }
 
-        public Builder setOnclickListener(DialogInterface.OnLeftAndRightClickListener listener) {
+        public Builder setOnclickListener(DialogInterface.OnLeftAndRightClickListener<MDAlertDialog> listener) {
             this.listener = listener;
             return this;
         }

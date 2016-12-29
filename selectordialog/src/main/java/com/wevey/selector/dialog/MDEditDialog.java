@@ -58,13 +58,6 @@ public class MDEditDialog {
     private void initDialog() {
 
         mDialog.setCanceledOnTouchOutside(mBuilder.isTouchOutside());
-        mDialog.setOnDismissListener(new android.content.DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(android.content.DialogInterface dialog) {
-
-                mEdit.setText("");
-            }
-        });
 
         if (mBuilder.getTitleVisible()) {
 
@@ -93,21 +86,20 @@ public class MDEditDialog {
             public void onClick(View v) {
                 if (mBuilder.getListener() != null) {
 
-                    mBuilder.getListener().clickLeftButton(MDEditDialog.this, mLeftBtn, mEdit
-                            .getText().toString());
+                    mBuilder.getListener().clickLeftButton(MDEditDialog.this, mLeftBtn);
                 }
 
-                if (mBuilder.getListener() != null) {
 
-                    mBuilder.getListener().clickRightButton(MDEditDialog.this, mRightBtn, mEdit
-                            .getText().toString());
-                }
             }
         });
         mRightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                if (mBuilder.getListener() != null) {
+
+                    mBuilder.getListener().clickRightButton(MDEditDialog.this, mRightBtn);
+                }
             }
         });
 
@@ -126,6 +118,11 @@ public class MDEditDialog {
             mEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mBuilder.getMaxLength
                     ())});
         }
+    }
+
+    public String getEditTextContent(){
+
+        return mEdit.getText().toString();
     }
 
     public void show() {
@@ -167,7 +164,7 @@ public class MDEditDialog {
         private float width;
         private String hintText;
         private int hintTextColor;
-        private DialogInterface.OnClickEditDialogListener listener;
+        private DialogInterface.OnLeftAndRightClickListener<MDEditDialog> listener;
         private int inputTpye;
         private Context mContext;
 
@@ -403,11 +400,11 @@ public class MDEditDialog {
             return this;
         }
 
-        public DialogInterface.OnClickEditDialogListener getListener() {
+        public DialogInterface.OnLeftAndRightClickListener<MDEditDialog> getListener() {
             return listener;
         }
 
-        public Builder setOnclickListener(DialogInterface.OnClickEditDialogListener listener) {
+        public Builder setOnclickListener(DialogInterface.OnLeftAndRightClickListener<MDEditDialog> listener) {
             this.listener = listener;
             return this;
         }

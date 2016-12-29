@@ -159,7 +159,7 @@ public class NormalSelectionDialog {
         return button;
     }
 
-    public void setDatas(List<String> datas) {
+    public NormalSelectionDialog setDatas(List<String> datas) {
 
         int count = linearLayout.getChildCount();
         if (count > 1) {
@@ -168,6 +168,7 @@ public class NormalSelectionDialog {
 //
         this.datas = (datas == null ? new ArrayList<String>() : datas);
         loadItem();
+        return this;
     }
 
     public List<String> getDatas() {
@@ -205,7 +206,7 @@ public class NormalSelectionDialog {
         private int titleTextColor;
         private float titleTextSize;
         //item属性
-        private DialogInterface.OnItemClickListener onItemListener;
+        private DialogInterface.OnItemClickListener<NormalSelectionDialog> onItemListener;
         private int itemHeight;
         private float itemWidth;
         private int itemTextColor;
@@ -286,11 +287,11 @@ public class NormalSelectionDialog {
             return this;
         }
 
-        public DialogInterface.OnItemClickListener getOnItemListener() {
+        public DialogInterface.OnItemClickListener<NormalSelectionDialog> getOnItemListener() {
             return onItemListener;
         }
 
-        public Builder setOnItemListener(DialogInterface.OnItemClickListener onItemListener) {
+        public Builder setOnItemListener(DialogInterface.OnItemClickListener<NormalSelectionDialog> onItemListener) {
             this.onItemListener = onItemListener;
             return this;
         }
