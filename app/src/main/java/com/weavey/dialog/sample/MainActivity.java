@@ -49,15 +49,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initBottomDialog() {
 
-
-        final ArrayList<String> s = new ArrayList<>();
+        ArrayList<String> s = new ArrayList<>();
         s.add("Weavey0");
         s.add("Weavey1");
         s.add("Weavey2");
         s.add("Weavey3");
 
-        NormalSelectionDialog dialog  = new NormalSelectionDialog.Builder(this)
-                .setlTitleVisible(true)   //设置是否显示标题
+        new NormalSelectionDialog.Builder(this).setlTitleVisible(true)   //设置是否显示标题
                 .setTitleHeight(65)   //设置标题高度
                 .setTitleText("please select")  //设置标题提示文本
                 .setTitleTextSize(14) //设置标题字体大小 sp
@@ -69,27 +67,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setCancleButtonText("Cancle")  //设置最底部“取消”按钮文本
                 .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
 
-
                     @Override
-                    public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
+                    public void onItemClick(NormalSelectionDialog dialog, View button, int
+                            position) {
 
                         dialog.dismiss();
                     }
-                }).setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
-                .build();
-
-        dialog.setDatas(s);
-        dialog.show();
+                })
+                .setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
+                .build()
+                .setDatas(s)
+                .show();
 
 
     }
 
-    private void initNormalDialog(){
+    private void initNormalDialog() {
 
-      new NormalAlertDialog.Builder(MainActivity.this)
-                .setHeight(0.23f)  //屏幕高度*0.23
-                .setWidth(0.65f)  //屏幕宽度*0.65
-                .setTitleVisible(true)
+        new NormalAlertDialog.Builder(MainActivity.this).setTitleVisible(false)
                 .setTitleText("温馨提示")
                 .setTitleTextColor(R.color.black_light)
                 .setContentText("是否关闭对话框？")
@@ -102,46 +97,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void clickLeftButton(NormalAlertDialog dialog, View view) {
 
-                        dialog.dismiss();
-                    }
+                dialog.dismiss();
+            }
 
                     @Override
                     public void clickRightButton(NormalAlertDialog dialog, View view) {
-                        dialog.dismiss();
-                    }
+
+                dialog.dismiss();
+            }
                 })
-                .build().show();
+                .build()
+                .show();
 
     }
 
-    private void initNormalDialog2(){
+    private void initNormalDialog2() {
 
-        new NormalAlertDialog.Builder(MainActivity.this)
-                .setHeight(0.23f)  //屏幕高度*0.23
+        new NormalAlertDialog.Builder(MainActivity.this).setHeight(0.23f)  //屏幕高度*0.23
                 .setWidth(0.65f)  //屏幕宽度*0.65
-                .setTitleVisible(true)
-                .setTitleText("温馨提示")
+                .setTitleVisible(true).setTitleText("温馨提示")
                 .setTitleTextColor(R.color.colorPrimary)
                 .setContentText("是否关闭对话框？")
                 .setContentTextColor(R.color.colorPrimaryDark)
-                .setSingleMode(true)
-                .setSingleButtonText("关闭")
+                .setSingleMode(true).setSingleButtonText("关闭")
                 .setSingleButtonTextColor(R.color.colorAccent)
                 .setCanceledOnTouchOutside(true)
                 .setSingleListener(new DialogInterface.OnSingleClickListener<NormalAlertDialog>() {
                     @Override
                     public void clickSingleButton(NormalAlertDialog dialog, View view) {
-
                         dialog.dismiss();
                     }
                 })
-                .build().show();
+                .build()
+                .show();
 
     }
 
     private void initMDDialog() {
 
-      new MDAlertDialog.Builder(MainActivity.this)
+        new MDAlertDialog.Builder(MainActivity.this)
                 .setHeight(0.21f)  //屏幕高度*0.21
                 .setWidth(0.7f)  //屏幕宽度*0.7
                 .setTitleVisible(true)
@@ -168,13 +162,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dialog.dismiss();
                     }
                 })
-                .build().show();
+                .build()
+                .show();
 
     }
 
-    private void initMDMidDialog(){
+    private void initMDMidDialog() {
 
-       MDSelectionDialog dialog = new MDSelectionDialog.Builder(MainActivity.this)
+        datas = new ArrayList<>();
+        datas.add("标为未读");
+        datas.add("置顶聊天");
+        datas.add("删除该聊天");
+
+        new MDSelectionDialog.Builder(MainActivity.this)
                 .setCanceledOnTouchOutside(true)
                 .setItemTextColor(R.color.black_light)
                 .setItemHeight(50)
@@ -188,23 +188,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dialog.dismiss();
                     }
                 })
-                .build();
-
-        datas = new ArrayList<>();
-        datas.add("标为未读");
-        datas.add("置顶聊天");
-        datas.add("删除该聊天");
-        datas.add("删除该聊天");
-        datas.add("删除该聊天");
-        datas.add("删除该聊天");
-        dialog.setDatas(datas);
-        dialog.show();
+                .build()
+                .setDatas(datas)
+                .show();
     }
 
-    private void initMDEditDialog(){
+    private void initMDEditDialog() {
 
-         new MDEditDialog.Builder(MainActivity.this)
-                .setTitleVisible(true)
+        new MDEditDialog.Builder(MainActivity.this).setTitleVisible(true)
                 .setTitleText("修改用户名")
                 .setTitleTextSize(20)
                 .setTitleTextColor(R.color.black_light)
@@ -220,55 +211,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setRightButtonTextColor(R.color.colorPrimary)
                 .setRightButtonText("确定")
                 .setLineColor(R.color.colorPrimary)
-                 .setInputTpye(InputType.TYPE_CLASS_NUMBER)
-                .setOnclickListener(new DialogInterface.OnClickEditDialogListener() {
+                .setInputTpye(InputType.TYPE_CLASS_NUMBER)
+                .setOnclickListener(new DialogInterface.OnLeftAndRightClickListener<MDEditDialog>
+                        () {
+
                     @Override
-                    public void clickLeftButton(MDEditDialog dialog, View view, String editText) {
+                    public void clickLeftButton(MDEditDialog dialog, View view) {
+
+                        dialog.getEditTextContent();
                         dialog.dismiss();
                     }
 
                     @Override
-                    public void clickRightButton(MDEditDialog dialog, View view, String editText) {
+                    public void clickRightButton(MDEditDialog dialog, View view) {
 
+                        dialog.getEditTextContent();
                         dialog.dismiss();
                     }
                 })
                 .setMinHeight(0.3f)
                 .setWidth(0.8f)
-                .build().show();
+                .build()
+                .show();
     }
 
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
 
-            case R.id.button1 :
+            case R.id.button1:
 
                 initBottomDialog();
                 break;
 
-            case R.id.button2 :
+            case R.id.button2:
 
                 initNormalDialog();
                 break;
 
-            case R.id.button3 :
+            case R.id.button3:
 
                 initNormalDialog2();
                 break;
 
-            case R.id.button4 :
+            case R.id.button4:
 
                 initMDDialog();
                 break;
 
-            case R.id.button5 :
+            case R.id.button5:
 
                 initMDMidDialog();
                 break;
 
-            case R.id.button6 :
+            case R.id.button6:
 
                 initMDEditDialog();
                 break;
